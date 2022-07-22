@@ -11,12 +11,25 @@ function Pokemon({ query }) {
    ✅ move the code from the useState and useEffect hooks into the usePokemon hook
    then, call the usePokemon hook to access the pokemon data in this component
   */
-  const [pokemon, setPokemon] = useState(null);
-  useEffect(() => {
-    fetch(`https://pokeapi.co/api/v2/pokemon/${query}`)
-      .then(r => r.json())
-      .then(setPokemon);
-  }, [query]);
+  
+
+  const { data: pokemon } = usePokemon(query)
+
+  function usePokemon(query) {
+
+    const [pokemon, setPokemon] = useState(null);
+
+    useEffect(() => {
+      fetch(`https://pokeapi.co/api/v2/pokemon/${query}`)
+        .then(r => r.json())
+        .then(setPokemon);
+    }, [query]);
+
+    return {data: pokemon}
+
+  }
+
+
 
   // 🚫 don't worry about the code below here, you shouldn't have to touch it
   if (!pokemon) return <h3>Loading...</h3>;
